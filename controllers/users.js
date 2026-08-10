@@ -20,15 +20,25 @@ router.get('/:id', async (req, res) => {
       as: 'readings',
       attributes: { exclude: ['userId'] },
       through: {
-        attributes: []
+        attributes: ['id', 'read']
       }
     }
   })
-  if (user) {
-    res.json(user)
-  } else {
-    res.status(404).end()
+
+  if (!user) {
+    return res.status(404).end()
   }
+
+  const readings = user.readings.map(blog => {
+    const { readinglist, ...rest } = blog.toJSON()
+    return { ...rest, readinglists: [readinglist] }
+  })
+
+  res.json({
+    name: user.name,
+    username: user.username,
+    readings
+  })
 })
 
 router.post('/', async (req, res) => {
