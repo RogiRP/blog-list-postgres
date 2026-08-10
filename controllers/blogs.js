@@ -19,11 +19,15 @@ router.post('/', tokenExtractor, async (req, res) => {
   res.json(blog)
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', tokenExtractor, async (req, res) => {
   const blog = await Blog.findByPk(req.params.id)
-  if (blog) {
-    await blog.destroy()
+  if (!blog) {
+    return res.status(204).end()
   }
+  if (blog.userId !== req.decodedToken.id) {
+    return res.status(401).json({ error: 'only the creator can delete a blog' })
+  }
+  await blog.destroy()
   res.status(204).end()
 })
 
