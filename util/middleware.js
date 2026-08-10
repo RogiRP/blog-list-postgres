@@ -2,7 +2,8 @@
   console.error(error.message)
 
   if (error.name === "SequelizeValidationError") {
-    return res.status(400).json({ error: error.message })
+    const messages = error.errors.map(err => err.message)
+    return res.status(400).json({ error: messages })
   }
 
   next(error)
