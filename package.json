@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
+    "start:test": "TESTING=true node index.js",
+    "test": "TESTING=true node --test --test-concurrency=1 tests/api_ch3.test.js",
     "migration:down": "node util/rollback.js"
   },
   "repository": {
@@ -26,5 +27,8 @@
     "pg": "^8.23.0",
     "sequelize": "^6.37.8",
     "umzug": "^3.8.3"
+  },
+  "devDependencies": {
+    "axios": "^1.21.0"
   }
 }
