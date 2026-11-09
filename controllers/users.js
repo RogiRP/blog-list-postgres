@@ -1,4 +1,4 @@
-﻿const router = require('express').Router()
+const router = require('express').Router()
 
 const { User, Blog } = require('../models')
 
@@ -60,7 +60,12 @@ router.put('/:username', async (req, res) => {
     }
   })
   if (user) {
-    user.username = req.body.username
+    if (req.body.name !== undefined) {
+      user.name = req.body.name
+    }
+    if (req.body.username !== undefined) {
+      user.username = req.body.username
+    }
     await user.save()
     res.json(user)
   } else {
