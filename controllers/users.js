@@ -38,7 +38,7 @@ router.get('/:id', async (req, res) => {
 
   const readings = user.readings.map(blog => {
     const { readinglist, ...rest } = blog.toJSON()
-    return { ...rest, readinglists: [readinglist] }
+    return { ...rest, readingList: readinglist }
   })
 
   res.json({
