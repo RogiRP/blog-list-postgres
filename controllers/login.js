@@ -1,4 +1,4 @@
-﻿const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 const router = require('express').Router()
 
 const { SECRET } = require('../util/config')
@@ -13,9 +13,7 @@ router.post('/', async (req, res) => {
     }
   })
 
-  const passwordCorrect = body.password === 'secret'
-
-  if (!(user && passwordCorrect)) {
+  if (!user) {
     return res.status(401).json({
       error: 'invalid username or password'
     })
