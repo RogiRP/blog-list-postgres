@@ -1,12 +1,16 @@
-﻿const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 const { SECRET } = require('./config')
 
 const errorHandler = (error, req, res, next) => {
   console.error(error.message)
 
-  if (error.name === "SequelizeValidationError") {
+  if (error.name === 'SequelizeValidationError' || error.name === 'SequelizeUniqueConstraintError') {
     const messages = error.errors.map(err => err.message)
     return res.status(400).json({ error: messages })
+  }
+
+  if (error.name === 'SequelizeDatabaseError') {
+    return res.status(400).json({ error: [error.message] })
   }
 
   next(error)
